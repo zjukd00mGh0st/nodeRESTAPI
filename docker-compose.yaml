@@ -1,0 +1,19 @@
+services:
+  nodedb:
+    image: mysql:latest
+    container_name: nodedb
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=4BSZN4Ixyu67Pbtv
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_USER=nodeadmin
+      - MYSQL_PASSWORD=Epi0h5hmwXgAMwBn
+    volumes:
+      - ./nodeDBData:/var/lib/mysql
+    networks:
+      - eventsNet
+
+
+networks:
+  eventsNet:
