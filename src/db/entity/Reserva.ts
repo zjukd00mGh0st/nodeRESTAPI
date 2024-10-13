@@ -12,11 +12,8 @@ export class Reserva {
     @Column("int", { nullable: false })
     cantidad_boletos: number;
 
-    @Column("timestamp", { nullable: false })
+    @CreateDateColumn({ name: "fecha_reserva" })
     fecha_reserva: Date;
-
-    @CreateDateColumn({ name: "fecha_creacion" })
-    fecha_creacion: Date;
 
     @ManyToOne(() => Evento, (evento) => evento.reservas, { onDelete: "CASCADE", nullable: false })
     evento: Evento;

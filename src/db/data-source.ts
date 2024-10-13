@@ -1,9 +1,11 @@
 import "reflect-metadata";
-import { DataSource } from "typeorm";
+import { DataSource, useContainer } from "typeorm";
+import { Container } from "typeorm-typedi-extensions";
 import { DATABASE_URL } from "../config"
 import { Evento } from "./entity/Evento";
 import { Reserva } from "./entity/Reserva";
 
+// useContainer(Container);
 
 export const AppDataSource = new DataSource({
     type: "mysql",

@@ -4,7 +4,8 @@ import cors from "cors";
 import morgan from "morgan";
 import { HOST, PORT } from "./config";
 import { AppDataSource } from "./db/data-source";
-import { router as EventosRouter } from "./eventos/eventos.controller";
+import { EventosRouter } from "./eventos/eventos.controller";
+import { ReservasRouter } from "./reservas/reservas.controller";
 
 
 async function main() {
@@ -30,6 +31,7 @@ async function main() {
     });
 
     app.use("/eventos", EventosRouter);
+    app.use("/reservas", ReservasRouter);
 
     app.listen(parseInt(PORT), HOST, () => {});
 }

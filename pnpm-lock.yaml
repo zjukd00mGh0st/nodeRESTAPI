@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
       class-validator:
         specifier: ^0.14.1
         version: 0.14.1
@@ -32,9 +35,15 @@ importers:
       reflect-metadata:
         specifier: ^0.1.14
         version: 0.1.14
+      typedi:
+        specifier: ^0.10.0
+        version: 0.10.0
       typeorm:
         specifier: 0.3.20
         version: 0.3.20(mysql2@3.11.3)(pg@8.13.0)(ts-node@10.9.1(@types/node@16.18.113)(typescript@4.5.2))
+      typeorm-typedi-extensions:
+        specifier: ^0.4.1
+        version: 0.4.1(typedi@0.10.0)(typeorm@0.3.20(mysql2@3.11.3)(pg@8.13.0)(ts-node@10.9.1(@types/node@16.18.113)(typescript@4.5.2)))
     devDependencies:
       '@types/cors':
         specifier: ^2.8.17
@@ -216,6 +225,9 @@ packages:
   chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
+
+  class-transformer@0.5.1:
+    resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
 
   class-validator@0.14.1:
     resolution: {integrity: sha512-2VEG9JICxIqTpoK1eMzZqaV+u/EiwEJkMGzTrZf6sU/fwsnOITVgYJ8yojSy6CaXtO9V0Cc6ZQZ8h8m4UBuLwQ==}
@@ -771,6 +783,15 @@ packages:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
 
+  typedi@0.10.0:
+    resolution: {integrity: sha512-v3UJF8xm68BBj6AF4oQML3ikrfK2c9EmZUyLOfShpJuItAqVBHWP/KtpGinkSsIiP6EZyyb6Z3NXyW9dgS9X1w==}
+
+  typeorm-typedi-extensions@0.4.1:
+    resolution: {integrity: sha512-05hWktQ4zuXzTTUO3ao56yOezlvUuZhH2NRS//m0SOGCAJoVlfPTMHcmDaMSQy/lMfAwPWoIyn+sfK7ONzTdXQ==}
+    peerDependencies:
+      typedi: '>=0.10.0'
+      typeorm: '>=0.2.30'
+
   typeorm@0.3.20:
     resolution: {integrity: sha512-sJ0T08dV5eoZroaq9uPKBoNcGslHBR4E4y+EBHs//SiGbblGe7IeduP/IH4ddCcj0qp3PHwDwGnuvqEAnKlq/Q==}
     engines: {node: '>=16.13.0'}
@@ -1068,6 +1089,8 @@ snapshots:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+
+  class-transformer@0.5.1: {}
 
   class-validator@0.14.1:
     dependencies:
@@ -1633,6 +1656,13 @@ snapshots:
     dependencies:
       media-typer: 0.3.0
       mime-types: 2.1.35
+
+  typedi@0.10.0: {}
+
+  typeorm-typedi-extensions@0.4.1(typedi@0.10.0)(typeorm@0.3.20(mysql2@3.11.3)(pg@8.13.0)(ts-node@10.9.1(@types/node@16.18.113)(typescript@4.5.2))):
+    dependencies:
+      typedi: 0.10.0
+      typeorm: 0.3.20(mysql2@3.11.3)(pg@8.13.0)(ts-node@10.9.1(@types/node@16.18.113)(typescript@4.5.2))
 
   typeorm@0.3.20(mysql2@3.11.3)(pg@8.13.0)(ts-node@10.9.1(@types/node@16.18.113)(typescript@4.5.2)):
     dependencies:
