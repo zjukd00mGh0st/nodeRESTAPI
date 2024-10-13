@@ -1,8 +1,14 @@
 import { Request, Response } from "express";
 import { validate } from "class-validator";
+import { AppDataSource } from "../db/data-source";
 import { CreateEventDTO } from "./dto/create-event.dto";
 import { UpdateEventDTO } from "./dto/update-event.dto";
 import { GetEntityByIdDTO } from "../common/dto/get-entity-by-id.dto";
+import { Evento } from "../db/entity/Evento";
+import { GetEventsDTO } from "./dto/get-events.dto";
+import { FindOptionsWhere } from "typeorm";
+
+const repo = AppDataSource.getRepository(Evento);
 
 export async function createEvent(req: any, res: any) {
     const data: CreateEventDTO = req.body;
@@ -18,23 +24,37 @@ export async function createEvent(req: any, res: any) {
         return res.status(400).json(validationErrors);
     }
 
-    console.log("This is the body data")
-    console.log(data)
+    if (data.fecha < new Date()) {
+        return res.status(400).json({ error: "La fecha del evento no puede ser en el pasado" });
+    }
 
-    res.json({
-        "evento": {}
+    const evento = new Evento();
+    Object.assign(evento, createEventDto);
+
+    const { id, fecha_creacion } = await repo.save(evento);
+
+    return res.status(201).json({
+        "evento": {
+            id,
+            fecha_creacion,
+            ...evento,
+        }
     });
 }
 
 export async function getEvents(req: any, res: any) {
-    const query = req.query;
+    const { id, nombre, ubicacion, fecha, fecha_creacion } = req.query as GetEventsDTO;
 
-    console.log("Query data")
-    console.log(query)
+    const whereCondition: FindOptionsWhere<Evento> = {
+        ...(id && { id }),
+        ...(nombre && { nombre }),
+        ...(fecha && { fecha }),
+        ...(fecha_creacion && { fecha_creacion }),
+    }
 
-    res.json({
-        eventos: []
-    })
+    const [eventos, total] = await repo.findAndCount({ where: whereCondition, order: { fecha: "DESC" } });
+
+    return res.json({ eventos, total });
 };
 
 export async function getEventById(req: any, res: any) {
@@ -53,9 +73,12 @@ export async function getEventById(req: any, res: any) {
         });
     }
 
-    res.json({
-        "evento": {}
-    });
+    try {
+        const evento = await repo.findOneByOrFail({ id });
+        return res.json({ evento });
+    } catch (err: any) {
+        return res.sendStatus(404);
+    }
 }
 
 export async function updateEvent(req: any, res: any) {
@@ -71,6 +94,10 @@ export async function updateEvent(req: any, res: any) {
         return res.sendStatus(422);
     }
 
+    if (data.fecha < new Date()) {
+        return res.status(400).json({ error: "La fecha del evento no puede ser en el pasado" });
+    }
+
     const updateEventDto = Object.assign(new UpdateEventDTO(), { ...data, id });
     const validationErrors = await validate(updateEventDto)
 
@@ -80,10 +107,17 @@ export async function updateEvent(req: any, res: any) {
         });
     }
 
+    let evento: Evento;
 
-    res.json({
-        "evento": {}
-    });
+    try {
+        evento = await repo.findOneByOrFail({ id });
+    } catch (err: any) {
+        return res.sendStatus(404);
+    }
+
+    Object.assign(evento, updateEventDto);
+
+    return res.json({ evento });
 }
 
 export async function deleteEvent(req: any, res: any) {
@@ -102,5 +136,16 @@ export async function deleteEvent(req: any, res: any) {
         });
     }
 
-    res.sendStatus(200);
+    try {
+        await repo.findOneByOrFail({ id });
+    } catch (err: any) {
+        return res.sendStatus(404);
+    }
+
+    try {
+        await repo.delete({ id });
+        return res.sendStatus(200);
+    } catch (err: any) {
+        return res.status(400).json({ error: err.message });
+    }
 }
