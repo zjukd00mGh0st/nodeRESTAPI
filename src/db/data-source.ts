@@ -1,6 +1,5 @@
 import "reflect-metadata";
-import { DataSource, useContainer } from "typeorm";
-import { Container } from "typeorm-typedi-extensions";
+import { DataSource } from "typeorm";
 import { DATABASE_URL } from "../config"
 import { Evento } from "./entity/Evento";
 import { Reserva } from "./entity/Reserva";
@@ -12,8 +11,7 @@ export const AppDataSource = new DataSource({
     url: DATABASE_URL,
     synchronize: false,
     logging: false,
-    // entities: ["./src/db/entity/*{.ts,.js}"],
-    entities: [Evento, Reserva],
-    migrations: ["./src/db/migration/*{.ts,.js}"],
+    entities: ["./build/db/entity/*.js"],
+    migrations: ["./build/migration/*.js"],
     subscribers: [],
 });
