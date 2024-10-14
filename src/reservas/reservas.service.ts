@@ -64,7 +64,7 @@ export class BookingService {
             ...(cantidad_boletos && { cantidad_boletos }),
         };
 
-        const [reservas, total] = await repo.findAndCount({ where: whereCondition });
+        const [reservas, total] = await repo.findAndCount();
 
         return res.json({ reservas, total });
     }
